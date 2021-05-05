@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="discreet.css">
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Discrete Random Calculator</h1>
+
+
+<h2>Values</h2>
+<input type="radio" name="sp" id="mean" checked="true"> Mean (Expected Value)<br>
+<input type="radio" name="sp" id="var"> Variance<br>
+<input type="radio" name="sp" id="stdev"> Standard Deviation<br>
+<table border="0" cellspacing="0" cellpadding="5" >
+<tr><td></td></tr>
+
+<tr><td>Enter number of values:</td><td> <input type="text" id="val"></td></tr>
+<tr>
+<td>
+<input type="button" value="Generate Input List" onClick="genList();"> 
+</td><td></td></tr> </table>
+<br><br><br>
+<table border="1" cellspacing="0" cellpadding="5" id="exTable">
+<thead>
+<th>Value</th> <th>Prob. of that value</th>
+</thead>
+<tbody>
+<tr><td></td><td></td></tr>
+
+</tbody>
+
+</table>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="5" >
+<tr><td><span>Copy R Code From Here:</span></td></tr>
+<tr>
+<td><textarea id ="text_ex" name="outputtext" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genCode();"> <button class="btn" data-clipboard-action="copy" data-clipboard-target="#text_ex">Copy to clipboard</button>
+<small><p><i>Disclaimer on the photoshopped background image: This is for comedic purposes only. Don't do drugs but this is still absolutely 10/10 comedy. See CSS comment.</i></p></small>
+</div>
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+    var clipboard = new Clipboard('.btn');
+
+
+
+
+function genCode(){
+
+var out = "";
+
+var tmp = document.getElementById("val").value;
+var n = parseInt(tmp);
+var i = 0;
+
+var a = "a<-c(";
+var b = "b<-c(";
+
+
+
+for(i = 0; i < n; i++){
+	var tmp1 = document.getElementById("l"+i).value;
+	var tmp2 = document.getElementById("r"+i).value;
+	if(i < n-1){
+	a = a + tmp1 + ",";
+	b = b + tmp2 + ",";
+	}
+	else{
+	a = a + tmp1;
+	b = b + tmp2;
+	}
+
+}
+a = a + ")";
+b = b + ")";
+
+if(document.getElementById("mean").checked === true){
+out = out + a + "\n";
+out = out + b + "\n";
+out = out + "sum(a*b)\n";
+document.getElementById("text_ex").value = out;
+}
+else if(document.getElementById("var").checked === true){
+out = out + a + "\n";
+out = out + b + "\n";
+out = out + "m = sum(a*b)\n";
+out = out + "temp1 = a - m \n";
+out = out + "temp2 = temp1^2 \n";
+out = out + "sum(temp2 * b)\n";
+
+document.getElementById("text_ex").value = out;
+
+}
+else if(document.getElementById("stdev").checked === true){
+out = out + a + "\n";
+out = out + b + "\n";
+out = out + "m = sum(a*b)\n";
+out = out + "temp1 = a - m \n";
+out = out + "temp2 = temp1^2 \n";
+out = out + "v = sum(temp2 * b)\n";
+out = out + "sqrt(v) \n";
+
+document.getElementById("text_ex").value = out;
+
+
+}
+else{
+document.getElementById("text_ex").value = "Unknown Error";
+}
+
+
+
+}
+
+function genList(){
+var tmp = document.getElementById("val").value;
+var n = parseInt(tmp);
+var i = 0;
+
+var rows = document.getElementById("exTable").getElementsByTagName("tr").length;
+if(rows > 1){
+for(i=1; i < rows; i++){
+document.getElementById("exTable").deleteRow(1);
+}
+}
+
+for(i = 0; i < n; i++){
+	var tableRef = document.getElementById('exTable').getElementsByTagName('tbody')[0];
+  // Insert a row in the table at row index 0
+  var newRow   = tableRef.insertRow(tableRef.rows.length);
+ 
+  // Insert a cell in the row at index 0
+  var newCell  = newRow.insertCell(0);
+
+  // Append a text node to the cell
+  var newE  = document.createElement("input");
+  newE.setAttribute("id", "l"+i+"");
+  newCell.appendChild(newE);
+
+  var newCell2  = newRow.insertCell(1);
+  var newE2  = document.createElement("input");
+  newE2.setAttribute("id", "r"+i+"");
+  newCell2.appendChild(newE2);
+  }
+}
+
+</script>
+</body>
+</html>

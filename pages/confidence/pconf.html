@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<style>
+div.prop {
+    visibility: hidden; 
+}
+</style>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="confidence.css">
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Confidence Intervals - Proportions</h1>
+</div>
+
+<br>
+
+<div>
+<h2>Compute Intervals - Large Sample Size</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x, number in desired category:</td><td> <input type="text" id="x1"></td></tr>
+<tr><td>Enter value for n, overall sample size:</td><td> <input type="text" id="n1"></td></tr>
+<tr><td>Enter value for confidence level as decimal (0.90, 0.95, 0.99, etc):</td><td> <input type="text" id="conf1"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Interval:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtexti" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genICode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtexti">Copy to clipboard</button>
+</div>
+
+
+
+<br>
+<div>
+<h2>Compute Intervals - Small Sample Size</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x, number in desired category:</td><td> <input type="text" id="x_s"></td></tr>
+<tr><td>Enter value for n, overall sample size:</td><td> <input type="text" id="n_s"></td></tr>
+<tr><td>Enter value for confidence level as decimal (0.90, 0.95, 0.99, etc):</td><td> <input type="text" id="conf_s"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Interval:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtext_s" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genSCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtext_s">Copy to clipboard</button>
+
+</div>
+<br>
+
+<div>
+<h2>Compute Sample Size Needed</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+Do you have an estimate of the proportion? <select id="choice" onchange="updateInput()">
+<option value="no" >no</option>
+<option value="yes" >yes</option>
+</select>
+<tr><td><div class="prop" id="d1">Enter value for proportion estimate:</div></td><td> <div class="prop" id="d2"><input type="text" id="p_est"> </div></td></tr> 
+
+<tr><td>Desired margin of error:</td><td> <input type="text" id="err_s"></td></tr>
+<tr><td>Enter value for confidence level as decimal (0.90, 0.95, 0.99, etc):</td><td> <input type="text" id="conf_samp"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Sample Size Needed:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextn" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genNCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextn">Copy to clipboard</button>
+</div>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+
+function updateInput(){
+
+var elem1 = document.getElementById('d1');
+var elem2 = document.getElementById('d2');
+if (document.getElementById("choice").value === "yes"){
+
+elem1.style.visibility='visible';
+elem2.style.visibility='visible';
+
+}
+else{
+elem1.style.visibility='hidden';
+elem2.style.visibility='hidden';
+document.getElementById("p_est").value ="";
+}
+}
+
+
+
+
+function genICode(){
+
+var tmp_x = document.getElementById("x1").value;
+
+var tmp_n = document.getElementById("n1").value;
+
+var x = parseFloat(tmp_x);
+
+var n = parseFloat(tmp_n);
+
+var p = x/n;
+
+var s = Math.sqrt(p*(1-p)/n);
+
+var conf = document.getElementById("conf1").value;
+
+var end = "";
+var out = "";
+end = "qnorm(1-(1-"+conf+")/2)*"+s;
+out = p + "-" + end + "\n"+p+ "+" + end + "\n" ;
+
+
+  
+document.getElementById("outputtexti").value = out;
+
+}
+
+
+
+
+
+
+function genSCode(){
+
+var tmp_x = document.getElementById("x_s").value;
+
+var tmp_n = document.getElementById("n_s").value;
+
+var x = parseFloat(tmp_x);
+
+var n = parseFloat(tmp_n);
+
+var p = (x+2)/(n+4);
+
+var s = Math.sqrt(p*(1-p)/(n+4));
+
+var conf = document.getElementById("conf_s").value;
+
+var end = "";
+var out = "";
+end = "qnorm(1-(1-"+conf+")/2)*"+s;
+out = p + "-" + end + "\n"+p+ "+" + end + "\n" ;
+
+
+  
+document.getElementById("outputtext_s").value = out;
+
+}
+
+
+
+
+
+function genNCode(){
+
+var p = 0.0;
+
+if (document.getElementById("choice").value === "yes"){
+var tmp_p = document.getElementById("p_est").value;
+p = parseFloat(tmp_p);
+
+}
+else{
+p = 0.5;
+}
+
+var p_val = p * (1-p);
+
+
+var err = document.getElementById("err_s").value;
+var conf = document.getElementById("conf_samp").value;
+
+
+var out = "";
+
+out = "ceiling( "+ p_val +"*(qnorm(1-(1-"+conf+")/2)/"+err+")^2)";
+
+  
+document.getElementById("outputtextn").value = out;
+
+}
+
+
+</script>
+</body>
+</html>

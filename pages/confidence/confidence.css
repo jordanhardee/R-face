@@ -1,0 +1,24 @@
+body{
+background-color: green;
+background-image: url("1024px-Radiation_warning_symbol.svg.png");
+background-repeat: repeat;
+/* Image from Pixabay, free for commercial use. find out more about the image here: https://en.wikipedia.org/wiki/File:Radiation_warning_symbol.svg Colors changed with GNU Image Manipulation Program (GIMP) to match color scheme*/
+color: green;
+}
+
+h1{
+font-family: 'Press Start 2P', cursive;
+color: green;
+text-align: center;
+}
+
+div{
+width: 40%;
+margin-left: auto;
+margin-right: auto;
+border: 5px inset green;
+background-color: black;
+padding: 10px;
+}
+
+/*Variations on a theme, radioactive symbol background for "confidence" because YOU HAD BETTER BE CONFIDENT WITH THINGS THAT CAN KILL YOU*/

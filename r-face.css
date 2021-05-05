@@ -1,0 +1,124 @@
+p{
+color: green;
+}
+h1{
+visibility:hidden;
+/*R-face header is hidden for search engines and screen readers as an alternative to ASCII Art*/
+}
+h2{
+font-family: 'Press Start 2P', cursive;
+color: green
+}
+
+h3{
+text-align: center;
+color: green;
+}
+
+footer{
+text-align: right;
+font-size: small;
+visibility: hidden;
+/*footer text is invisible because it has been replaced by an image. remains while invisible for those with screen-readers*/
+}
+pre{
+text-align: center;
+color: green;
+font-weight: bold;
+/*for the fancy banner*/
+}
+html{
+/*background-image: linear-gradient(to bottom right, skyblue, #F8D382);*/
+background-image: url("markus-spiske-1288375-unsplash.jpg");
+background-repeat: no-repeat;
+background-attachment: scroll;
+background-position: right;
+background-size: cover;
+font-family: 'Signika', sans-serif;
+text-align: center;
+/* Photo by Markus Spiske on Unsplash */
+
+}
+body{
+background-image: url("prof1.png");
+background-repeat: no-repeat;
+background-position: right bottom;
+background-attachment: fixed;
+/*Fractal generated in the GNU Image Manipulation Program (GIMP), binary image from WikiMedia at https://commons.wikimedia.org/wiki/File:Binary_Back.jpg*/
+
+}
+/*.author-Trevor-Presgrave{
+background-image: url("prof.png");
+background-repeat: no-repeat;
+background-position: right bottom;
+background-attachment: fixed;
+/*large div tag for second background image*/
+/*.left-author-Trevor-Presgrave{
+background-image: url("prof2.png");
+background-repeat: no-repeat;
+background-position: left bottom;
+background-attachment: fixed;
+
+large div tag for third background image on the left side of the page, enable by uncommenting at your visual peril. you're actually kind of lucky though, originally I wanted to make the eyes blink but decided that was a LITTLE too much. Uncomment this and all commented out sections tagged "ENABLE ME FOR 3RD BG" in HTML section to see 3rd BG. Note the fractal is not present in the 3RD BG!
+
+}*/
+.b{
+	width: 30%;
+	border: 10px solid lightgreen;
+	position: relative;
+	align-items: center;
+}
+div{
+width: 40%;
+margin-left: auto;
+margin-right: auto;
+border: 5px inset green;
+background-color: black;
+padding: 10px;
+}
+/*normal boxes*/
+
+.cont{
+width: 50%;
+margin-left: auto;
+margin-right: auto;
+border: 5px initial red;
+background-image: url("630022main_pia15480-full_full.jpg");
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-position: center;
+background-size: cover;
+padding: 10px;
+}
+/*Image from NASA: https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/images/630022main_pia15480-full_full.jpg find out more about it here: https://www.nasa.gov/mission_pages/WISE/multimedia/pia15480.html . Image had a gaussian blur applied to it and an opaque version the previously mentioned binary image overlayed atop of it.*/
+/*Background of items*/
+.contDeeper{
+width: 50%;
+margin-left: auto;
+margin-right: auto;
+border: 5px initial red;
+background-color: black;
+padding: 10px;
+}
+/*Background of items in cont*/
+
+
+
+ul{
+list-style-type: none;
+padding: 55px;
+}
+/*to center lists and remove bullets*/
+
+
+/* unvisited link */
+a:link {
+  color: lime;
+text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+text-decoration: none;
+}

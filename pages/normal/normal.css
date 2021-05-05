@@ -1,0 +1,24 @@
+body{
+background-color: green;
+background-image: url("distribution-159626_1280.png");
+background-repeat: repeat;
+/* Image from Pixabay, free for commercial use. find out more about the image here: https://pixabay.com/vectors/distribution-normal-statistics-159626/ */
+color: green;
+}
+
+h1{
+font-family: 'Press Start 2P', cursive;
+color: green;
+text-align: center;
+}
+
+div{
+width: 40%;
+margin-left: auto;
+margin-right: auto;
+border: 5px inset green;
+background-color: black;
+padding: 10px;
+}
+
+/*Variations on a theme, normal distro background for "normal" couldn't find one that was funny*/

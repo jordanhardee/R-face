@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+<link rel="stylesheet" type="text/css" href="descriptive.css">
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Measures of Position Calculator</h1>
+</div>
+
+<br>
+
+<div>
+<h2>Compute Z-Score</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x:</td><td> <input type="text" id="x"></td></tr>
+<tr><td>Enter value for population mean:</td><td> <input type="text" id="mu"></td></tr>
+<tr><td>Enter value for population standard deviation:</td><td> <input type="text" id="sigma"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Z-Score:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextz" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextz">Copy to clipboard</button>
+<br>
+</div>
+
+<br>
+
+<div>
+<h2>Compute Percentile</h2>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Compute the n<sup>th</sup> percentile, enter percentile value(1-100): <input type="text" id="nth" size="5"> </td></tr>
+<tr><td><span>Enter Raw Data Here (Numbers should be comma seperated):</span></td></tr>
+<td><textarea name="inputtextp" id="inputtextp" rows="12" cols="80"></textarea></td></tr>
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Percentile:</span></td></tr>
+<tr>
+<td><textarea name="outputtextp" id="outputtextp" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genPCode();"> <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextp">Copy to clipboard</button>
+<br>
+</div>
+<br>
+<div>
+<h2>Construct Boxplot</h2>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr><td><span>Enter Raw Data Here (Numbers should be comma seperated):</span></td></tr>
+<td><textarea name="inputtextplot" id="inputtextplot"rows="12" cols="80"></textarea></td></tr>
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Boxplot:</span></td></tr>
+<tr>
+<td><textarea name="outputtextplot" id="outputtextplot" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genBoxCode();"> <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextplot">Copy to clipboard</button>
+<br>
+</div>
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+function genZCode(){
+
+var x = document.getElementById("x").value;
+var m = document.getElementById("mu").value;
+var s = document.getElementById("sigma").value;
+
+out = "("+x+" - "+m+")/" + s;
+  
+document.getElementById("outputtextz").value = out;
+
+}
+
+
+function genPCode(){
+var input = document.getElementById("inputtextp").value;
+var goodData = true;
+var currentTagTokens = input.split(",");
+var temp = document.getElementById("nth").value
+var per = parseFloat(temp)/100;
+var out = "";
+ for ( var i = 0; i < currentTagTokens.length; i++ )
+  {
+	var tmp = currentTagTokens[ i ].trim();
+	
+	if( tmp.indexOf(" ") > 0 ){
+	
+		out = "ERROR!  missing comma near:" + tmp;
+		i = currentTagTokens.length;
+		goodData = false;
+	}
+	else if(tmp.length < 1){
+		out = "ERROR!  extra comma found:" + tmp;
+		i = currentTagTokens.length;
+		goodData = false;
+	}
+	else {
+	
+   
+    out = out + tmp;
+	  if( i < currentTagTokens.length -1)
+		out = out + ",";
+		
+	}
+	
+  }
+  if(goodData){
+  out = "x <- c("+out+")"+"\n";
+  out = out + "y = sort(x)\n";
+ 
+  var l = per * currentTagTokens.length;
+
+	if (l % 1 != 0){
+	
+		l = Math.ceil(l);
+		out = out + "y["+l+"]";
+	}
+	else{
+	
+		out = out + "(y["+l+"]+" + "y["+l+"+1])/2\n";
+	}
+  
+
+  
+  }
+document.getElementById("outputtextp").value = out;
+}
+function genBoxCode(){
+var input = document.getElementById("inputtextplot").value;
+var goodData = true;
+var currentTagTokens = input.split(",");
+
+
+var out = "";
+ for ( var i = 0; i < currentTagTokens.length; i++ )
+  {
+	var tmp = currentTagTokens[ i ].trim();
+	
+	if( tmp.indexOf(" ") > 0 ){
+	
+		out = "ERROR!  missing comma near:" + tmp;
+		i = currentTagTokens.length;
+		goodData = false;
+	}
+	else if(tmp.length < 1){
+		out = "ERROR!  extra comma found:" + tmp;
+		i = currentTagTokens.length;
+		goodData = false;
+	}
+	else {
+	
+   
+    out = out + tmp;
+	  if( i < currentTagTokens.length -1)
+		out = out + ",";
+		
+	}
+	
+  }
+  if(goodData){
+	 out = "x <- c("+out+")"+"\n";
+	 out = out + "boxplot(x)\n";
+	 }
+	document.getElementById("outputtextplot").value = out;
+
+}
+</script>
+</body>
+</html>

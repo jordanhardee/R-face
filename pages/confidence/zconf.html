@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="confidence.css">
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Confidence Intervals - Population Standard Deviation Known</h1>
+</div>
+
+<br>
+
+<div>
+<h2>Compute Intervals</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for point estimate:</td><td> <input type="text" id="x1"></td></tr>
+<tr><td>Enter value for population standard deviation:</td><td> <input type="text" id="sigma1"></td></tr>
+<tr><td>Enter value for sample size:</td><td> <input type="text" id="n1"></td></tr>
+<tr><td>Enter value for confidence level as decimal (0.90, 0.95, 0.99, etc):</td><td> <input type="text" id="conf1"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Interval:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtexti" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genICode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtexti">Copy to clipboard</button>
+</div>
+
+<br>
+<div>
+<h2>Compute Sample Size Needed</h2>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for population standard deviation:</td><td> <input type="text" id="sigma_s"></td></tr>
+
+<tr><td>Desired margin of error:</td><td> <input type="text" id="err_s"></td></tr>
+<tr><td>Enter value for confidence level as decimal (0.90, 0.95, 0.99, etc):</td><td> <input type="text" id="conf_s"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Sample Size Needed:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextn" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genNCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextn">Copy to clipboard</button>
+</div><br>
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+
+function genICode(){
+
+var x = document.getElementById("x1").value;
+var s = document.getElementById("sigma1").value;
+var n = document.getElementById("n1").value;
+var conf = document.getElementById("conf1").value;
+
+var end = "";
+var out = "";
+end = "qnorm(1-(1-"+conf+")/2)*"+s+"/sqrt("+n+")";
+out = x + "-" + end + "\n"+x + "+" + end + "\n" ;
+
+
+  
+document.getElementById("outputtexti").value = out;
+
+}
+
+function genNCode(){
+
+
+var s = document.getElementById("sigma_s").value;
+var err = document.getElementById("err_s").value;
+var conf = document.getElementById("conf_s").value;
+
+
+var out = "";
+
+out = "ceiling( (qnorm(1-(1-"+conf+")/2)*"+s+"/"+err+")^2)";
+
+  
+document.getElementById("outputtextn").value = out;
+
+}
+
+
+</script>
+</body>
+</html>

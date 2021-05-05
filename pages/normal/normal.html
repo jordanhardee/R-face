@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="normal.css">
+
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Normal Distribution</h1>
+</div>
+
+<br>
+
+<div>
+<h2>Compute Z-Score for Normal Distribution</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x:</td><td> <input type="text" id="x"></td></tr>
+<tr><td>Enter value for population mean:</td><td> <input type="text" id="mu"></td></tr>
+<tr><td>Enter value for population standard deviation:</td><td> <input type="text" id="sigma"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Z-Score:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextz" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextz">Copy to clipboard</button>
+
+</div>
+<br>
+<div>
+
+<h2>Compute Z-Score for Sampling Distribution</h2>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x:</td><td> <input type="text" id="x_s"></td></tr>
+<tr><td>Enter value for population mean:</td><td> <input type="text" id="mu_s"></td></tr>
+<tr><td>Enter value for population standard deviation:</td><td> <input type="text" id="sigma_s"></td></tr>
+<tr><td>Enter value for sample size:</td><td> <input type="text" id="n_s"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Z-Score from Sampling Distribution:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextzs" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZSCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextzs">Copy to clipboard</button>
+
+
+</div>
+<br>
+<div>
+
+
+<h2>Compute Z-Score for Proportions</h2>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for p_hat:</td><td> <input type="text" id="p_h"></td></tr>
+<tr><td>Enter value for population proportion:</td><td> <input type="text" id="p_p"></td></tr>
+<tr><td>Enter value for sample size:</td><td> <input type="text" id="n_p"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Z-Score from Proportions:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextzp" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZPCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextzp">Copy to clipboard</button>
+
+
+</div><br>
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+
+function genZCode(){
+
+var x = document.getElementById("x").value;
+var m = document.getElementById("mu").value;
+var s = document.getElementById("sigma").value;
+
+out = "("+x+" - "+m+")/" + s;
+  
+document.getElementById("outputtextz").value = out;
+
+}
+
+function genZSCode(){
+
+var x = document.getElementById("x_s").value;
+var m = document.getElementById("mu_s").value;
+var s = parseFloat(document.getElementById("sigma_s").value);
+var n = parseInt(document.getElementById("n_s").value);
+var sampstd = s/Math.sqrt(n);
+out = "("+x+" - "+m+")/" + sampstd;
+  
+document.getElementById("outputtextzs").value = out;
+
+}
+
+function genZPCode(){
+
+var x = document.getElementById("p_h").value;
+var m = document.getElementById("p_p").value;
+
+var n = parseInt(document.getElementById("n_p").value);
+var p = parseFloat(m);
+var s = Math.sqrt((p*(1-p))/n);
+
+out = "("+x+" - "+m+")/" + s;
+  
+document.getElementById("outputtextzp").value = out;
+
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="normal.css">
+
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Z-Score Look-ups</h1>
+</div>
+<br>
+<div>
+<h2>Compute Area related to Z-Score</h2>
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter Z-score:</td><td> <input type="text" id="inscore"></td></tr>
+</table>
+I want to find the area to the <select id="compare">
+  <option value="left">left</option>
+  <option value="right">right</option> 
+  </select> of the z-score.<br>
+
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Z-Score Area:</span></td></tr>
+<tr>
+<td><textarea name="outputtext" id="outputtextza" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZACode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextza">Copy to clipboard</button>
+
+</div>
+<br>
+<div>
+
+
+<h2>Compute Z-Score related to Area</h2>
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter Area:</td><td> <input type="text" id="inarea"></td></tr>
+</table>
+I want to find the z-score that has the above area it's <select id="compare_area">
+  <option value="left">left</option>
+  <option value="right">right</option> 
+  </select> of the z-score.<br>
+
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Area Z-Score:</span></td></tr>
+<tr>
+<td><textarea name="outputtext" id="outputtextza_in" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZAINCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextza_in">Copy to clipboard</button>
+</div><br>
+
+
+
+
+
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+function genZACode(){
+
+var choice = document.getElementById("compare").value;
+
+var x = document.getElementById("inscore").value;
+
+var out = "";
+
+if(choice === "left"){
+out = out + "pnorm(" + x + ")";
+
+}
+else if(choice === "right"){
+out = out + "1-pnorm(" + x + ")";
+}
+else{
+out = "unknown error";
+}  
+document.getElementById("outputtextza").value = out;
+
+}
+
+function genZAINCode(){
+
+var choice = document.getElementById("compare_area").value;
+
+var x = document.getElementById("inarea").value;
+
+var out = "";
+
+if(choice === "left"){
+out = out + "qnorm(" + x + ")";
+
+}
+else if(choice === "right"){
+out = out + "qnorm(1-" + x + ")";
+}
+else{
+out = "unknown error";
+}  
+document.getElementById("outputtextza_in").value = out;
+
+}
+
+
+
+</script>
+</body>
+</html>

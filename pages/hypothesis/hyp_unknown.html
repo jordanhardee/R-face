@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="hypothesis.css">
+<style>
+div.prop {
+    visibility: hidden; 
+}
+</style>
+</head>
+<body>
+<br><br>
+<div>
+<h1>Hypothesis Testing, Population Standard Deviation Unknown</h1>
+
+
+<h2>Compute Hypothesis Test</h2>
+
+Which method do you wish to use? <select id="choice" onchange="updateInput()">
+<option value="p_meth" >p-value Method</option>
+<option value="c_meth" >Critical Value Method</option>
+</select>
+<br><br>
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x:</td><td> <input type="text" id="x_s"></td></tr>
+<tr><td>Enter value for population mean:</td><td> <input type="text" id="mu_s"></td></tr>
+<tr><td>Enter value for sample standard deviation:</td><td> <input type="text" id="sigma_s"></td></tr>
+<tr><td>Enter value for sample size:</td><td> <input type="text" id="n_s"></td></tr>
+<tr><td><div class="prop" id="d1">Enter value for alpha (0.05, 0.10, etc):</div></td><td><div class="prop" id="d2"><input type="text" id="alpha_s"></div></td></tr>
+</table>
+The alternate hypothesis is: H<sub>1</sub>: &mu; <select id="choice2"> 
+
+<option name="lt" value ="lt"><</option>
+<option name="gt" value="gt">></option>
+<option name="ne" value ="ne">&ne;</option>
+
+</select> value. <br>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Hypothesis Test:</span></td></tr>
+<tr>
+<td><textarea name="outputtextz" id="outputtextzs" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genZSCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextzs">Copy to clipboard</button>
+</div><br>
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+function updateInput(){
+
+var elem1 = document.getElementById('d1');
+var elem2 = document.getElementById('d2');
+if (document.getElementById("choice").value === "c_meth"){
+
+elem1.style.visibility='visible';
+elem2.style.visibility='visible';
+
+}
+else{
+elem1.style.visibility='hidden';
+elem2.style.visibility='hidden';
+document.getElementById("alpha_s").value ="";
+}
+}
+
+
+function genZSCode(){
+
+var x = document.getElementById("x_s").value;
+var m = document.getElementById("mu_s").value;
+var s = parseFloat(document.getElementById("sigma_s").value);
+var n = parseInt(document.getElementById("n_s").value);
+var df = n - 1;
+var alpha = document.getElementById("alpha_s").value;
+var sampstd = s/Math.sqrt(n);
+out = "t=("+x+" - "+m+")/" + sampstd+"\n";
+
+if (document.getElementById("choice").value === "p_meth"){
+
+
+if(document.getElementById("choice2").value === "lt"){
+out = out + "tval = pt(t, df="+df+")\n";
+out = out + "print('Your p value is...')\ntval";
+
+}
+else if(document.getElementById("choice2").value === "gt"){
+out = out + "tval = 1-pt(t, df="+df+")\n";
+out = out + "print('Your p value is...')\ntval";
+
+}
+else if(document.getElementById("choice2").value === "ne"){
+var xval = parseFloat(x);
+var mval = parseFloat(m);
+if(xval > mval){
+out = out + "tval = 1-pt(t, df="+df+")\n";
+}
+else{
+out = out + "tval = 2*pt(t, df="+df+")\n";
+}
+
+out = out + "print('Your p value is...')\ntval";
+}
+else{
+out = "Unknown error";
+}
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById("outputtextzs").value = out;
+}
+
+else if (document.getElementById("choice").value === "c_meth"){
+
+if(document.getElementById("choice2").value === "lt"){
+out = out + "tcrit = qt("+alpha+",df="+df+")\n";
+out = out + "print('Your t-score is...')\nt \n";
+out = out + "print('The critical value for your alpha is...')\ntcrit \n";
+}
+else if(document.getElementById("choice2").value === "gt"){
+out = out + "tcrit = qt(1-"+alpha+",df="+df+")\n";
+out = out + "print('Your t-score is...')\nt \n";
+out = out + "print('The critical value for your alpha is...')\ntcrit \n";
+}
+else if(document.getElementById("choice2").value === "ne"){
+out = out + "tcrit1 = qt(1-"+alpha+"/2,df="+df+")\n";
+out = out + "tcrit2 = qt("+alpha+"/2,df="+df+")\n";
+out = out + "print('Your t-score is...')\nt \n";
+out = out + "print('The critical values for your alpha are...')\ntcrit1 \ntcrit2 \n";
+}
+else{
+out = "Unknown error";
+}
+  
+document.getElementById("outputtextzs").value = out;
+}
+
+
+
+else{
+document.getElementById("outputtextzs").value = "Unknown error";
+
+}
+
+}
+
+
+
+</script>
+</body>
+</html>

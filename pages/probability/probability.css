@@ -1,0 +1,25 @@
+body{
+background-image: url("https://media.giphy.com/media/3oGRFlpAW4sIHA02NW/giphy.gif");
+background-repeat: no-repeat;
+background-size: cover;
+/*Background image from GIPHY, find out more about the image here: https://giphy.com/gifs/cinder-libcinder-craig-pickard-3oGRFlpAW4sIHA02NW/links*/
+color: green;
+}
+
+h1{
+font-family: 'Press Start 2P', cursive;
+color: green;
+text-align: center;
+}
+
+div{
+width: 40%;
+margin-left: auto;
+margin-right: auto;
+border: 5px inset green;
+background-color: black;
+padding: 10px;
+}
+
+/*Variations on a theme, dice gif for "probability"*/
+

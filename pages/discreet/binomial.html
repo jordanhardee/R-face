@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="discreet.css">
+</head>
+<body>
+<br><br>
+<div>
+<h1>R binomial Calculator</h1>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td></td></tr>
+<tr><td>Enter value for number of trials (n):</td><td> <input type="text" id="n"></td></tr>
+<tr><td>Enter value for probability of success (p):</td><td> <input type="text" id="p"></td></tr>
+<tr><td>Number of successes: P(x) <select id="compare">
+  <option value="e">=</option>
+  <option value="g">></option>
+  <option value="l"><</option>
+  <option value="ge">>=</option>
+  <option value="le"><=</option>
+</select>
+ </td><td> <input type="text" id="x"></td></tr>
+<tr>
+
+<td><br><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td><span>Copy R Code From Here:</span></td></tr>
+<tr>
+<td><textarea name="outputtext" id="outputtext" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genCode();"> <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtext">Copy to clipboard</button>
+<small><p><i>Disclaimer on the photoshopped background image: This is for comedic purposes only. Don't do drugs but this is still absolutely 10/10 comedy. See CSS comment.</i></p></small>
+</div>
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+ 
+function genCode(){
+
+
+var p = document.getElementById("p").value;
+var n = document.getElementById("n").value;
+var x = document.getElementById("x").value;
+
+var choice = document.getElementById("compare").value;
+
+
+var out = "";
+
+if(choice === "e"){
+
+out = out + "dbinom("+x+", size="+n+", prob="+p+")\n"; 
+
+}
+
+else if(choice === "le"){
+out = out + "pbinom("+x+", size="+n+", prob="+p+")\n"; 
+
+}
+else if(choice === "l"){
+out = out + "pbinom("+(x-1)+", size="+n+", prob="+p+")\n"; 
+
+}
+else if(choice === "g"){
+out = out + "1 - pbinom("+x+", size="+n+", prob="+p+")\n"; 
+
+}
+else if(choice === "ge"){
+out = out + "1 - pbinom("+(x-1)+", size="+n+", prob="+p+")\n"; 
+
+}
+
+
+else {
+out = "Unknown error";
+}
+
+document.getElementById("outputtext").value = out;
+
+
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="probability.css">
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Counting Calculator</h1>
+
+
+
+<input type="radio" name="sp" id="perm" checked="true"> Permutation<br>
+
+<input type="radio" name="sp" id="comb"> Combination<br><br><br><br>
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td></td></tr>
+<tr><td>Enter value for n:</td><td> <input type="text" id="n"></td></tr>
+<tr><td>Enter value for r:</td><td> <input type="text" id="r"></td></tr>
+<tr>
+
+<td><br><br></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td><span>Copy R Code From Here:</span></td></tr>
+<tr>
+<td><textarea name="outputtext" id="outputtext" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genCode();"> <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtext">Copy to clipboard</button>
+</div>
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+ 
+function genCode(){
+
+
+var r = document.getElementById("r").value;
+var n = document.getElementById("n").value;
+
+
+
+var out = "";
+
+if(document.getElementById("perm").checked === true){
+
+out = out + "choose("+n+","+r+")*factorial("+r+")";
+
+
+}
+
+else if( document.getElementById("comb").checked === true){
+out = out + "choose("+n+","+r+")";
+
+}
+
+else {
+out = "Unknown error";
+}
+
+document.getElementById("outputtext").value = out;
+
+
+}
+
+</script>
+</body>
+</html>

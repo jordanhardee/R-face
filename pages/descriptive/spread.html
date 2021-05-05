@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+<link rel="stylesheet" type="text/css" href="descriptive.css">
+<!--above is google imported font-->
+</head>
+<body>
+<br><br>
+<div>
+<h1>R Measures of Spread Calculator</h1>
+
+<input type="radio" name="sp" id="range" checked="true"> Range<br>
+<input type="radio" name="sp" id="varp"> Variance - Population<br>
+<input type="radio" name="sp" id="vars"> Variance - Sample<br>
+<input type="radio" name="sp" id="stdp"> Standard Deviation - Population<br>
+<input type="radio" name="sp" id="stds"> Standard Deviation - Sample<br><br><br><br>
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td><span>Enter Raw Data Here (Numbers should be comma seperated):</span></td></tr>
+<td><textarea name="inputtext" id="inputtext" rows="12" cols="80"></textarea></td></tr>
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here:</span></td></tr>
+<tr>
+<td><textarea name="outputtext" id="outputtext" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genCode();"> <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtext">Copy to clipboard</button>
+</div>
+
+
+
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+function genCode(){
+
+var input = document.getElementById("inputtext").value;
+var goodData = true;
+var currentTagTokens = input.split(",");
+
+var out = "";
+ for ( var i = 0; i < currentTagTokens.length; i++ )
+  {
+	var tmp = currentTagTokens[ i ].trim();
+	
+	if( tmp.indexOf(" ") > 0 ){
+	
+		out = "ERROR!  missing comma near:" + tmp;
+		i = currentTagTokens.length;
+		goodData = false;
+	}
+	else if(tmp.length < 1){
+		out = "ERROR!  extra comma found:" + tmp;
+		i = currentTagTokens.length;
+		goodData = false;
+	}
+	else {
+	
+   
+    out = out + tmp;
+	  if( i < currentTagTokens.length -1)
+		out = out + ",";
+		
+	}
+	
+  }
+  if(goodData){
+  out = "x <- c("+out+")"+"\n";
+  if(document.getElementById("range").checked === true){
+     out = out + "max(x) - min(x)\n";
+  }
+  
+  else if(document.getElementById("varp").checked === true){
+  out = out + "sum((x-mean(x))^2)/(length(x))\n";
+  
+  }
+  
+  else if(document.getElementById("vars").checked === true){
+  out = out + "var(x) \n";
+ 
+  
+  }
+   else if(document.getElementById("stdp").checked === true){
+  out = out + "sqrt(sum((x-mean(x))^2)/(length(x)))\n";
+ 
+  
+  }
+   else if(document.getElementById("stds").checked === true){
+  out = out + "sd(x) \n";
+ 
+  
+  }
+  
+  else {
+	out = "unknown error with average selection";
+  }
+  }
+document.getElementById("outputtext").value = out;
+
+
+}
+
+</script>
+</body>
+</html>

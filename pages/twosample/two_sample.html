@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>R-Face</title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
+<!--above is google imported font-->
+
+<link rel="stylesheet" type="text/css" href="two-sample.css">
+<style>
+div.prop {
+    visibility: hidden; 
+}
+</style>
+</head>
+<body>
+<br><br>
+<div>
+<h1>Hypothesis Testing, Population Standard Deviation Unknown</h1>
+</div>
+<br>
+<div>
+<h2>Compute Hypothesis Test</h2>
+
+Which method do you wish to use? <select id="choice" onchange="updateInput()">
+<option value="p_meth" >p-value Method</option>
+<option value="c_meth" >Critical Value Method</option>
+</select>
+<br><br>
+
+How to compute degrees of Freedom? <select id="freedom" >
+<option value="hand" >Hand Method Method</option>
+<option value="calc" >Computational Method</option>
+</select>
+<br><br>
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x1:</td><td> <input type="text" id="x_h1"></td></tr>
+<tr><td>Enter value for x2:</td><td> <input type="text" id="x_h2"></td></tr>
+
+<tr><td>Enter value for sample standard deviation 1:</td><td> <input type="text" id="sigma_h1"></td></tr>
+<tr><td>Enter value for sample standard deviation 2:</td><td> <input type="text" id="sigma_h2"></td></tr>
+<tr><td>Enter value for sample size1:</td><td> <input type="text" id="n_h1"></td></tr>
+<tr><td>Enter value for sample size2:</td><td> <input type="text" id="n_h2"></td></tr>
+<tr><td><div class="prop" id="d1">Enter value for alpha (0.05, 0.10, etc):</div></td><td><div class="prop" id="d2"><input type="text" id="alpha_h"></div></td></tr>
+</table>
+The alternate hypothesis is: H<sub>1</sub>: &mu;<sub>1</sub> <select id="choice2"> 
+
+<option name="lt" value ="lt"><</option>
+<option name="gt" value="gt">></option>
+<option name="ne" value ="ne">&ne;</option>
+
+</select> &mu;<sub>2</sub> <br>
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Hypothesis Test:</span></td></tr>
+<tr>
+<td><textarea name="outputtexth" id="outputtexth" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genHCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtexth">Copy to clipboard</button>
+</div>
+
+<br>
+<div>
+<h2>Compute Confidence Interval</h2>
+
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+<tr><td>Enter value for x1:</td><td> <input type="text" id="x_c1"></td></tr>
+<tr><td>Enter value for x2:</td><td> <input type="text" id="x_c2"></td></tr>
+<tr><td>Enter value for sample standard deviation 1:</td><td> <input type="text" id="sigma_c1"></td></tr>
+<tr><td>Enter value for sample standard deviation 2:</td><td> <input type="text" id="sigma_c2"></td></tr>
+<tr><td>Enter value for sample size1:</td><td> <input type="text" id="n_c1"></td></tr>
+<tr><td>Enter value for sample size2:</td><td> <input type="text" id="n_c2"></td></tr>
+<tr><td>Enter value for confidence level as decimal (0.90, 0.95, 0.99, etc):</td><td> <input type="text" id="conf"></td></tr>
+</table>
+
+
+<table border="0" cellspacing="0" cellpadding="5">
+
+<tr>
+
+<td><br><br></td></tr>
+<tr>
+
+
+<tr><td><span>Copy R Code From Here for Confidence Interval:</span></td></tr>
+<tr>
+<td><textarea name="outputtextc" id="outputtextc" rows="12" cols="80"></textarea></td>
+</tr></table>
+<input type="button" value="Generate R Code" onClick="genCCode();">  <button class="btn" data-clipboard-action="copy" data-clipboard-target="#outputtextc">Copy to clipboard</button>
+</div><br>
+
+<script src="clipboard.min.js"></script>
+<script language="javascript" type="text/javascript">
+var clipboard = new Clipboard('.btn');
+
+function updateInput(){
+
+var elem1 = document.getElementById('d1');
+var elem2 = document.getElementById('d2');
+if (document.getElementById("choice").value === "c_meth"){
+
+elem1.style.visibility='visible';
+elem2.style.visibility='visible';
+
+}
+else{
+elem1.style.visibility='hidden';
+elem2.style.visibility='hidden';
+document.getElementById("alpha_s").value ="";
+}
+}
+
+
+function genHCode(){
+
+var x1 = parseFloat(document.getElementById("x_h1").value);
+var x2 = parseFloat(document.getElementById("x_h2").value);
+
+var s1 = parseFloat(document.getElementById("sigma_h1").value);
+var s2 = parseFloat(document.getElementById("sigma_h2").value);
+var n1 = parseInt(document.getElementById("n_h1").value);
+var n2 = parseInt(document.getElementById("n_h2").value);
+var alpha = parseFloat(document.getElementById("alpha_h").value);
+var out ="";
+var df = 0;
+if(document.getElementById("freedom").value === "hand"){
+	if (n1 < n2){
+	 df = n1 - 1;
+	 }
+	 else{
+	 df = n2-1;
+	 }
+ }
+ else{
+ var top = Math.pow(s1*s1/n1 + s2*s2/n2,2);
+ var bot1 = Math.pow(s1*s1/n1,2)/(n1-1);
+ var bot2 = Math.pow(s2*s2/n2, 2)/(n2-1);
+ df = Math.floor(top / (bot1 + bot2));
+ }
+
+
+
+var t = 0;
+
+var b1 = s1*s1/n1 + s2*s2/n2;
+b1 = Math.sqrt(b1);
+
+var u1 = (x1 - x2);
+
+var t = u1/b1;
+
+if (document.getElementById("choice").value === "p_meth"){
+
+
+
+out = out + "t ="+t+"\n";
+if(document.getElementById("choice2").value === "lt"){
+
+out = out + "tval = pt(t, df="+df+")\n";
+out = out + "print('Your p value is...')\ntval";
+
+}
+else if(document.getElementById("choice2").value === "gt"){
+
+out = out + "tval = 1-pt(t, df="+df+")\n";
+out = out + "print('Your p value is...')\ntval";
+
+}
+else if(document.getElementById("choice2").value === "ne"){
+
+
+if(t >= 0){
+
+out = out + "tval = 2*(1-pt(t, df="+df+"))\n";
+}
+else{
+out = out + "tval = 2*pt(t, df="+df+")\n";
+}
+
+
+out = out + "print('Your p value is...')\ntval";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById("outputtexth").value = out;
+}
+
+
+else if (document.getElementById("choice").value === "c_meth"){
+
+var alpha = parseFloat(document.getElementById("alpha_h").value);
+out = out + "t ="+t+"\n";
+if(document.getElementById("choice2").value === "lt"){
+out = out + "tcrit = qt("+alpha+",df="+df+")\n";
+out = out + "print('Your t-score is...')\nt \n";
+out = out + "print('The critical value for your alpha is...')\ntcrit \n";
+}
+else if(document.getElementById("choice2").value === "gt"){
+out = out + "tcrit = qt(1-"+alpha+",df="+df+")\n";
+out = out + "print('Your t-score is...')\nt \n";
+out = out + "print('The critical value for your alpha is...')\ntcrit \n";
+}
+else if(document.getElementById("choice2").value === "ne"){
+out = out + "tcrit1 = qt(1-"+alpha+"/2,df="+df+")\n";
+out = out + "tcrit2 = qt("+alpha+"/2,df="+df+")\n";
+out = out + "print('Your t-score is...')\nt \n";
+out = out + "print('The critical values for your alpha are...')\ntcrit1 \ntcrit2 \n";
+}
+else{
+out = "Unknown error";
+}
+  
+document.getElementById("outputtexth").value = out;
+}
+
+
+
+
+else{
+document.getElementById("outputtexth").value = "Unknown error";
+
+}
+
+}
+
+function genCCode(){
+
+var x1 = parseFloat(document.getElementById("x_c1").value);
+var x2 = parseFloat(document.getElementById("x_c2").value);
+
+var s1 = parseFloat(document.getElementById("sigma_c1").value);
+var s2 = parseFloat(document.getElementById("sigma_c2").value);
+var n1 = parseInt(document.getElementById("n_c1").value);
+var n2 = parseInt(document.getElementById("n_c2").value);
+var conf = parseFloat(document.getElementById("conf").value);
+var df= 0;
+	if (n1 < n2){
+	 df = n1 - 1;
+	 }
+	 else{
+	 df = n2-1;
+	 }
+ 
+	 
+	 
+
+var point = x1 - x2;
+
+var se = s1*s1/n1 + s2*s2/n2;
+se = Math.sqrt(se);
+
+
+var out = "";
+out = out + "m = qt((1-(1-"+conf+")/2),df="+df+") * "+se+"\n";
+out = out + point + "- m \n";
+out = out + point + "+ m \n";
+
+document.getElementById("outputtextc").value = out; 
+}
+</script>
+</body>
+</html>
